@@ -14,6 +14,7 @@ import Header from './components/Header.vue';
       </div>
 
     </main>
+
     <footer>
       <div class="container">footer</div>
     </footer>

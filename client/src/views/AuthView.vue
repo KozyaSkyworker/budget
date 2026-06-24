@@ -1,21 +1,53 @@
 <script setup lang="ts">
-import { login } from '@/api';
-import { ref } from 'vue';
+import { login, registration } from '@/api';
+import { computed, ref, watch } from 'vue';
+
+const { action } = defineProps<{
+    action: 'login' | 'registration'
+}>()
+
 
 const username = ref('');
 const password = ref('');
 
+const error = ref('');
+
+watch(() => action, () => {
+    username.value = '';
+    password.value = '';
+    error.value = '';
+});
+
+const title = computed(() => action === 'login' ? 'Login' : 'Registration');
+const goToText = computed(() => action === 'login' ? 'Registration' : 'Login');
+
 const handleSubmit = (event: Event) => {
     event.preventDefault();
-    console.log(username.value, password.value);
-    login({ username: username.value, password: password.value });
+    const userData = { username: username.value, password: password.value };
+
+    const request = async () => {
+        const res = action === 'login' ? await login(userData) : await registration(userData);
+        console.log(res)
+
+        if ('error' in res) {
+            error.value = res.error;
+        }
+    }
+
+    request()
 }
+
+
 </script>
 
 <template>
     <div class="auth-wrapper">
+        <h1 class="auth-title">Budget: {{ title }}</h1>
 
-        <h1 class="auth-title">Budget</h1>
+        <div v-if="error" class="auth-error">
+            {{ error }}
+        </div>
+
         <form @submit="handleSubmit">
             <label for="username">
                 <span class="label__text">Username</span>
@@ -28,12 +60,11 @@ const handleSubmit = (event: Event) => {
                 <input v-model.trim="password" type="password" id="password" name="password" required>
             </label>
 
-            <button type="submit" class="login-btn">Login</button>
+            <button type="submit">{{ title }}</button>
         </form>
 
-        registration
+        <RouterLink :to="{ name: goToText }">to {{ goToText }}</RouterLink>
     </div>
-
 </template>
 
 <style scoped>
@@ -45,7 +76,7 @@ const handleSubmit = (event: Event) => {
 
     border: 1px solid black;
     margin: 0 auto;
-    background: rgb(163, 211, 120);
+    background: rgb(216, 245, 191);
     min-width: 290px;
     max-width: 600px;
 }
@@ -53,6 +84,10 @@ const handleSubmit = (event: Event) => {
 .auth-title {
     width: max-content;
     border-bottom: 1px solid black
+}
+
+.auth-error {
+    color: red;
 }
 
 form {

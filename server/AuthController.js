@@ -20,23 +20,19 @@ class AuthController {
       if (!username || !password) {
         return res
           .status(400)
-          .send({ message: "Username and password are required" });
+          .send({ error: "Username and password are required" });
       }
 
       const candidate = this.users.find((user) => user.username === username);
 
       if (!candidate) {
-        return res
-          .status(400)
-          .send({ message: "Username or password is wrong" });
+        return res.status(400).send({ error: "Username or password is wrong" });
       }
 
       console.table(candidate);
 
       if (!bcrypt.compareSync(password, candidate.password)) {
-        return res
-          .status(400)
-          .send({ message: "Username or password is wrong" });
+        return res.status(400).send({ error: "Username or password is wrong" });
       }
 
       res.status(200).json({
@@ -45,7 +41,7 @@ class AuthController {
       });
     } catch (e) {
       console.error(e);
-      res.status(400).json({ message: "Login error" });
+      res.status(400).json({ error: "Login error" });
     }
   };
 
@@ -54,7 +50,7 @@ class AuthController {
       const { username, password } = req.body;
 
       if (this.users.find((user) => user.username === username)) {
-        return res.status(400).send({ message: "Username already exists" });
+        return res.status(400).send({ error: "Username already exists" });
       }
 
       this.users.push({
@@ -63,7 +59,10 @@ class AuthController {
         role: "user",
       });
 
-      res.send(`${username} was successfully registered`);
+      res.status(201).json({
+        username: candidate.username,
+        role: candidate.role,
+      });
     } catch (e) {
       console.error(e);
       res.status(400).json({ message: "Registration error" });
