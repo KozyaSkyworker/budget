@@ -1,19 +1,22 @@
 <script setup lang="ts">
+import { RouterView } from 'vue-router';
+import Header from './components/Header.vue';
 </script>
 
-<template >
+<template>
   <div class="wrapper">
-    <header class="header">
-   header
-  </header>
 
-  <main>
-    main
-  </main>
-  <footer>footer</footer>
+    <Header />
+
+    <main>
+      <div class="container">
+        <RouterView />
+      </div>
+
+    </main>
+    <footer>
+      <div class="container">footer</div>
+    </footer>
   </div>
+
 </template>
-
-<style scoped>
-
-</style>
