@@ -1,16 +1,19 @@
 @import './base.css';
 
-#app {
-  max-width: 1230px;
-  margin: 0 auto;
-}
 .wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
+.container{
+  padding: 0 15px;
+  margin: 0 auto;
+  width: 1230px;
+}
+
 header {
   flex: 0 0 auto;
+  border-bottom: 1px solid black;
 }
 main {
   flex: 1 1 auto;
