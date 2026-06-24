@@ -18,22 +18,31 @@ class AuthController {
       const { username, password } = req.body;
 
       if (!username || !password) {
-        return res.status(400).send("Username and password are required");
+        return res
+          .status(400)
+          .send({ message: "Username and password are required" });
       }
 
       const candidate = this.users.find((user) => user.username === username);
 
       if (!candidate) {
-        return res.status(400).send("Username or password is wrong");
+        return res
+          .status(400)
+          .send({ message: "Username or password is wrong" });
       }
 
       console.table(candidate);
 
       if (!bcrypt.compareSync(password, candidate.password)) {
-        return res.status(400).send("Username or password is wrong");
+        return res
+          .status(400)
+          .send({ message: "Username or password is wrong" });
       }
 
-      res.send("login successfully for " + candidate.username);
+      res.status(200).json({
+        username: candidate.username,
+        role: candidate.role,
+      });
     } catch (e) {
       console.error(e);
       res.status(400).json({ message: "Login error" });
