@@ -24,7 +24,8 @@ watch(() => action, () => {
 });
 
 const title = computed(() => action === 'login' ? 'Login' : 'Registration');
-const goToText = computed(() => action === 'login' ? 'Registration' : 'Login');
+const goToText = computed(() => action === 'login' ? "Don't have an account?" : "Have an account?");
+const goToLinkText = computed(() => action === 'login' ? 'Registration' : 'Login');
 
 const handleSubmit = (event: Event) => {
     event.preventDefault();
@@ -78,7 +79,7 @@ const handleSubmit = (event: Event) => {
             <button type="submit" :disabled="isLoading">{{ title }}</button>
         </form>
 
-        <p>Don't have an account? <RouterLink :to="{ name: goToText }"> Go to {{ goToText }}</RouterLink>
+        <p>{{ goToText }} <RouterLink :to="{ name: goToLinkText }"> Go to {{ goToLinkText }}</RouterLink>
         </p>
     </div>
 </template>
