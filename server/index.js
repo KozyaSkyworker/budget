@@ -2,7 +2,7 @@ import express from "express";
 import router from "./router.js";
 import cors from "cors";
 
-const PORT = 4444;
+import { PORT } from "./config.js";
 
 const CORS_OPTIONS = {
   origin: "http://localhost:5173",

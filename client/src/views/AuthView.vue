@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import { login, registration } from '@/api';
+import { useRouter } from 'vue-router'
 import { computed, ref, watch } from 'vue';
+import { useUserStore } from '@/stores/userStore';
 
 const { action } = defineProps<{
     action: 'login' | 'registration'
 }>()
 
+const userStore = useUserStore();
+const router = useRouter()
 
 const username = ref('');
 const password = ref('');
 
+const isLoading = ref(false)
 const error = ref('');
 
 watch(() => action, () => {
@@ -26,12 +31,20 @@ const handleSubmit = (event: Event) => {
     const userData = { username: username.value, password: password.value };
 
     const request = async () => {
+        isLoading.value = true
         const res = action === 'login' ? await login(userData) : await registration(userData);
-        console.log(res)
-
+        isLoading.value = false
         if ('error' in res) {
             error.value = res.error;
+        } else {
+            userStore.setUser({
+                username: res.username,
+                role: res.role,
+            });
+            localStorage.setItem('token', res.token)
+            router.replace({ name: 'Home' });
         }
+
     }
 
     request()
@@ -51,19 +64,22 @@ const handleSubmit = (event: Event) => {
         <form @submit="handleSubmit">
             <label for="username">
                 <span class="label__text">Username</span>
-                <input v-model.trim="username" type="text" id="username" name="username" autofocus required>
+                <input v-model.trim="username" type="text" id="username" name="username" autofocus required
+                    :disabled="isLoading">
             </label>
 
 
             <label for="password">
                 <span class="label__text">Password</span>
-                <input v-model.trim="password" type="password" id="password" name="password" required>
+                <input v-model.trim="password" type="password" id="password" name="password" required
+                    :disabled="isLoading">
             </label>
 
-            <button type="submit">{{ title }}</button>
+            <button type="submit" :disabled="isLoading">{{ title }}</button>
         </form>
 
-        <RouterLink :to="{ name: goToText }">to {{ goToText }}</RouterLink>
+        <p>Don't have an account? <RouterLink :to="{ name: goToText }"> Go to {{ goToText }}</RouterLink>
+        </p>
     </div>
 </template>
 

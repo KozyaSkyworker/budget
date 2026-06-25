@@ -24,10 +24,18 @@ export const router = createRouter({
 });
 
 router.beforeEach(async (to, from) => {
-  // const isAuth = false;
-  // if (!isAuth && to.name !== "Login") {
-  //   return { name: "Login" };
-  // }
+  const isAuth = Boolean(localStorage.getItem("token"));
+  const publicRoutes = ["Login", "Registration"];
 
-  return true;
+  if (!isAuth) {
+    if (!publicRoutes.includes(String(to.name))) {
+      return { name: "Login" };
+    }
+    return true;
+  } else {
+    if (publicRoutes.includes(String(to.name))) {
+      return { name: "Home" };
+    }
+    return true;
+  }
 });

@@ -1,10 +1,11 @@
+import type { IApiError, IUserData, IUserDto } from "@/types";
+
 const BASE_URL = "http://localhost:4444";
 
-interface User {
-  username: string;
-  password: string;
-}
-export const login = async ({ username, password }: User) => {
+export const login = async ({
+  username,
+  password,
+}: IUserData): Promise<IUserDto | IApiError> => {
   try {
     const res = await fetch(`${BASE_URL}/login`, {
       method: "POST",
@@ -18,11 +19,14 @@ export const login = async ({ username, password }: User) => {
     return response;
   } catch (e) {
     console.error(e);
-    return { error: e };
+    return { error: String(e) };
   }
 };
 
-export const registration = async ({ username, password }: User) => {
+export const registration = async ({
+  username,
+  password,
+}: IUserData): Promise<IUserDto | IApiError> => {
   try {
     const res = await fetch(`${BASE_URL}/registration`, {
       method: "POST",
@@ -36,6 +40,6 @@ export const registration = async ({ username, password }: User) => {
     return response;
   } catch (e) {
     console.error(e);
-    return { error: e };
+    return { error: String(e) };
   }
 };

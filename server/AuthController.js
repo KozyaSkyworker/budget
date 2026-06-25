@@ -1,6 +1,15 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-const SALT = 9;
+import { SALT, SECRET } from "./config.js";
+
+const generateAccessToken = ({ username, role }) => {
+  const payload = {
+    username,
+    role,
+  };
+  return jwt.sign(payload, SECRET, { expiresIn: "1h" });
+};
 
 class AuthController {
   constructor() {
@@ -29,15 +38,19 @@ class AuthController {
         return res.status(400).send({ error: "Username or password is wrong" });
       }
 
-      console.table(candidate);
-
       if (!bcrypt.compareSync(password, candidate.password)) {
         return res.status(400).send({ error: "Username or password is wrong" });
       }
 
+      const token = generateAccessToken({
+        username: candidate.username,
+        role: candidate.role,
+      });
+
       res.status(200).json({
         username: candidate.username,
         role: candidate.role,
+        token,
       });
     } catch (e) {
       console.error(e);
@@ -53,16 +66,22 @@ class AuthController {
         return res.status(400).send({ error: "Username already exists" });
       }
 
-      this.users.push({
+      const newUser = {
         username,
         password: bcrypt.hashSync(password, SALT),
         role: "user",
-      });
+      };
 
-      res.status(201).json({
-        username: candidate.username,
-        role: candidate.role,
-      });
+      this.users.push(newUser);
+
+      const userData = {
+        username: newUser.username,
+        role: newUser.role,
+      };
+
+      const token = generateAccessToken(userData);
+
+      res.status(201).json({ ...userData, token });
     } catch (e) {
       console.error(e);
       res.status(400).json({ message: "Registration error" });
