@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import HomeView from "./views/HomeView.vue";
 import AuthView from "./views/AuthView.vue";
+import PageNotFound from "./views/PageNotFound.vue";
 
 const routes = [
   { path: "/", component: HomeView, name: "Home" },
@@ -16,6 +17,7 @@ const routes = [
     name: "Registration",
     props: { action: "registration" },
   },
+  { path: "/:pathMatch(.*)*", component: PageNotFound, name: "PageNotFound" },
 ];
 
 export const router = createRouter({

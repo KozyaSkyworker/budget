@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { computed, onMounted, ref } from 'vue';
+import { useRouter, RouterLink } from 'vue-router'
+
 import { getUser } from '@/api';
 import { useUserStore } from '@/stores/userStore';
-import { computed, onMounted, ref } from 'vue';
 
+const router = useRouter()
 const userStore = useUserStore();
 
 const token = computed(() => localStorage.getItem('token'))
@@ -27,16 +30,28 @@ onMounted(async () => {
 
 })
 
+const handleLogout = () => {
+    localStorage.removeItem('token')
+    userStore.setUser(undefined)
+    router.replace({ name: 'Login' })
+}
 
 </script>
 
 <template>
-    <header class="header" v-if="userStore.user?.username">
+    <header class="header" id="header" v-if="userStore.user?.username">
         <div class="container">
             <span>{{ loading ? 'Loading...' : userStore.user?.username }}</span>
             <nav class="header__nav">
-                <RouterLink to="/">Go to Home</RouterLink>
-                <RouterLink to="/logout">Logout</RouterLink>
+                <ol class="header__list">
+                    <li>
+                        <RouterLink to="/">Go to Home</RouterLink>
+                    </li>
+                    <li>
+                        <RouterLink to="/charts">Go to Charts</RouterLink>
+                    </li>
+                    <li><button @click="handleLogout">Logout</button></li>
+                </ol>
             </nav>
         </div>
     </header>
@@ -51,5 +66,13 @@ onMounted(async () => {
 .header__nav {
     display: flex;
     gap: 0.5rem;
+}
+
+.header__list {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 </style>>

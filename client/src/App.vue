@@ -8,16 +8,14 @@ import Header from './components/Header.vue';
 
     <Header />
 
-    <main>
+    <main id="main">
       <div class="container">
         <RouterView />
       </div>
 
     </main>
 
-    <footer>
-      <div class="container">footer</div>
-    </footer>
+
   </div>
 
 </template>
