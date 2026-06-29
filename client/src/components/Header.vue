@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { useRouter, RouterLink } from 'vue-router'
+  import { computed, onMounted, ref } from 'vue'
+  import { useRouter, RouterLink } from 'vue-router'
 
-import { getUser } from '@/api';
-import { useUserStore } from '@/stores/userStore';
+  import { getUser } from '@/api'
+  import { useUserStore } from '@/stores/userStore'
 
-const router = useRouter()
-const userStore = useUserStore();
+  const router = useRouter()
+  const userStore = useUserStore()
 
-const token = computed(() => localStorage.getItem('token'))
+  const token = computed(() => localStorage.getItem('token'))
 
-const loading = ref(false)
-const error = ref('')
+  const loading = ref(false)
+  const error = ref('')
 
-onMounted(async () => {
+  onMounted(async () => {
     if (!token.value) {
-        return
+      return
     }
 
     loading.value = true
@@ -23,56 +23,55 @@ onMounted(async () => {
     loading.value = false
 
     if ('error' in response) {
-        error.value = response.error;
+      error.value = response.error
     } else {
-        userStore.setUser(response)
+      userStore.setUser(response)
     }
+  })
 
-})
-
-const handleLogout = () => {
+  const handleLogout = () => {
     localStorage.removeItem('token')
     userStore.setUser(undefined)
     router.replace({ name: 'Login' })
-}
-
+  }
 </script>
 
 <template>
-    <header class="header" id="header" v-if="userStore.user?.username">
-        <div class="container">
-            <span>{{ loading ? 'Loading...' : userStore.user?.username }}</span>
-            <nav class="header__nav">
-                <ol class="header__list">
-                    <li>
-                        <RouterLink to="/">Go to Home</RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink to="/charts">Go to Charts</RouterLink>
-                    </li>
-                    <li><button @click="handleLogout">Logout</button></li>
-                </ol>
-            </nav>
-        </div>
-    </header>
+  <header v-if="userStore.user?.username" id="header" class="header">
+    <div class="container">
+      <span>{{ loading ? 'Loading...' : userStore.user?.username }}</span>
+      <nav class="header__nav">
+        <ol class="header__list">
+          <li>
+            <RouterLink to="/">Go to Home</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/charts">Go to Charts</RouterLink>
+          </li>
+          <li><button @click="handleLogout">Logout</button></li>
+        </ol>
+      </nav>
+    </div>
+  </header>
 </template>
 
 <style scoped>
-.header {
+  .header {
     border-bottom: 1px solid black;
     padding-bottom: 5px;
-}
+  }
 
-.header__nav {
+  .header__nav {
     display: flex;
     gap: 0.5rem;
-}
+  }
 
-.header__list {
+  .header__list {
     display: flex;
     gap: 0.5rem;
     list-style: none;
     padding: 0;
     margin: 0;
-}
-</style>>
+  }
+</style>
+>

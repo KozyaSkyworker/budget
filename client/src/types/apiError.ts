@@ -1,3 +1,3 @@
 export interface IApiError {
-  error: string;
+  error: string
 }
