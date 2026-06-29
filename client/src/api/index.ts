@@ -1,5 +1,11 @@
 import { router } from "@/router";
-import type { IApiError, IUserData, IUserDto, IUser } from "@/types";
+import type {
+  IApiError,
+  IUserData,
+  IUserDto,
+  IUser,
+  ITransaction,
+} from "@/types";
 
 const BASE_URL = "http://localhost:4444";
 
@@ -59,6 +65,7 @@ export const getUser = async (): Promise<IUser | IApiError> => {
     const res = await fetch(`${BASE_URL}/me`, {
       headers: {
         ...headerAuthorization,
+        "Content-Type": "application/json",
       },
       credentials: "include",
     });
@@ -76,6 +83,49 @@ export const getUser = async (): Promise<IUser | IApiError> => {
       const { token } = await responseRefresh.json();
       localStorage.setItem("token", token);
       return getUser();
+    }
+
+    const response = await res.json();
+    return response;
+  } catch (e) {
+    console.error(e);
+    return { error: String(e) };
+  }
+};
+
+export const getTransactions = async (): Promise<
+  ITransaction[] | IApiError
+> => {
+  const token = localStorage.getItem("token");
+
+  const headerAuthorization: { Authorization?: string } = {};
+
+  if (token) {
+    headerAuthorization["Authorization"] = `Bearer ${token}`;
+  }
+
+  try {
+    const res = await fetch(`${BASE_URL}/transactions`, {
+      headers: {
+        ...headerAuthorization,
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+
+    if (res.status === 401) {
+      const responseRefresh = await refresh();
+
+      if (responseRefresh.status !== 200) {
+        localStorage.removeItem("token");
+        router.replace({ name: "Login" });
+        console.error("error refresh");
+        return { error: "Error refresh" };
+      }
+
+      const { token } = await responseRefresh.json();
+      localStorage.setItem("token", token);
+      return getTransactions();
     }
 
     const response = await res.json();
