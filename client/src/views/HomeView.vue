@@ -1,8 +1,11 @@
 <script setup lang="ts">
-  import { getTransactions } from '@/api'
-  import Transaction from '@/components/Transaction.vue'
-  import type { ITransaction } from '@/types'
   import { onMounted, ref } from 'vue'
+
+  import { getTransactions } from '@/api'
+
+  import type { ITransaction } from '@/types'
+
+  import Transaction from '@/components/Transaction.vue'
 
   const loading = ref(false)
   const error = ref('')

@@ -1,10 +1,11 @@
 import { router } from '@/router'
+
 import type {
   IApiError,
-  IUserData,
-  IUserDto,
+  ITransaction,
   IUser,
-  ITransaction
+  IUserData,
+  IUserDto
 } from '@/types'
 
 const BASE_URL = 'http://localhost:4444'

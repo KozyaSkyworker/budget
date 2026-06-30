@@ -3,5 +3,17 @@
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "none",
-  "vueIndentScriptAndStyle": true
+  "vueIndentScriptAndStyle": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "^[vue]",
+    "^@(?!/)",
+    "^@/api",
+    "^@/types",
+    "^@/stores",
+    "^@/components",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

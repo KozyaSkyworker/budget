@@ -1,8 +1,9 @@
+import globals from 'globals'
+import typescriptEslint from 'typescript-eslint'
+
 import eslintConfigPrettier from 'eslint-config-prettier'
 import eslintPluginPrettier from 'eslint-plugin-prettier'
 import eslintPluginVue from 'eslint-plugin-vue'
-import globals from 'globals'
-import typescriptEslint from 'typescript-eslint'
 
 export default typescriptEslint.config(
   { ignores: ['*.d.ts', '**/coverage', '**/dist'] },
@@ -26,7 +27,12 @@ export default typescriptEslint.config(
     rules: {
       '@typescript-eslint/no-explicit-any': 'error',
       'vue/multi-word-component-names': 'off',
-      'prettier/prettier': 'error'
+      'prettier/prettier': [
+        'error',
+        {
+          importOrder: 'off'
+        }
+      ]
     }
   },
   eslintConfigPrettier

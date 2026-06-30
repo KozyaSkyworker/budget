@@ -1,7 +1,9 @@
 <script setup lang="ts">
-  import { login, registration } from '@/api'
-  import { useRouter } from 'vue-router'
   import { computed, ref, useTemplateRef, watch } from 'vue'
+  import { useRouter } from 'vue-router'
+
+  import { login, registration } from '@/api'
+
   import { useUserStore } from '@/stores/userStore'
 
   const { action } = defineProps<{

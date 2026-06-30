@@ -1,6 +1,7 @@
-import { createWebHistory, createRouter } from 'vue-router'
-import HomeView from './views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router'
+
 import AuthView from './views/AuthView.vue'
+import HomeView from './views/HomeView.vue'
 import PageNotFound from './views/PageNotFound.vue'
 
 const routes = [

@@ -1,8 +1,9 @@
 <script setup lang="ts">
   import { computed, onMounted, ref } from 'vue'
-  import { useRouter, RouterLink } from 'vue-router'
+  import { RouterLink, useRouter } from 'vue-router'
 
   import { getUser } from '@/api'
+
   import { useUserStore } from '@/stores/userStore'
 
   const router = useRouter()
