@@ -5,21 +5,20 @@
   flex-direction: column;
   min-height: 100vh;
 }
-.container{
+.container {
   padding: 0 15px;
   margin: 0 auto;
   width: 1230px;
 }
 
-header {
+header#header {
   flex: 0 0 auto;
   border-bottom: 1px solid black;
 }
-main {
+main#main {
   flex: 1 1 auto;
+  padding: 1rem 0;
 }
-footer {
+footer#footer {
   flex: 0 0 auto;
 }
-
-
