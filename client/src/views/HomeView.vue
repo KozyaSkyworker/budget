@@ -1,28 +1,9 @@
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue'
-
-  import { getTransactions } from '@/api'
-
-  import type { ITransaction } from '@/types'
+  import { useGetTransactions } from '@/entities/transaction/api'
 
   import Transaction from '@/components/Transaction.vue'
 
-  const loading = ref(false)
-  const error = ref('')
-
-  const transactions = ref<ITransaction[]>([])
-
-  onMounted(async () => {
-    loading.value = true
-    const response = await getTransactions()
-    loading.value = false
-
-    if ('error' in response) {
-      error.value = response.error
-    } else {
-      transactions.value = response
-    }
-  })
+  const { data: transactions, error, loading } = useGetTransactions()
 </script>
 
 <template>
@@ -31,7 +12,7 @@
     <section class="main__block transactions">
       <p v-if="loading">Loading...</p>
       <p v-if="error">Error: {{ error }}</p>
-      <ul v-if="transactions.length">
+      <ul v-if="transactions?.length">
         <li v-for="transaction in transactions" :key="transaction.id">
           <Transaction v-bind="transaction" />
         </li>

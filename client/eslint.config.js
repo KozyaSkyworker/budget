@@ -27,10 +27,22 @@ export default typescriptEslint.config(
     rules: {
       '@typescript-eslint/no-explicit-any': 'error',
       'vue/multi-word-component-names': 'off',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'error',
       'prettier/prettier': [
         'error',
         {
-          importOrder: 'off'
+          importOrder: [
+            '^[vue]',
+            '^@(?!/)',
+            '^@/api',
+            '^@/types',
+            '^@/router',
+            '^@/entities',
+            '^@/stores',
+            '^@/components',
+            '^[./]'
+          ]
         }
       ]
     }

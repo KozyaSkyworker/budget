@@ -10,6 +10,8 @@
     "^@(?!/)",
     "^@/api",
     "^@/types",
+    "^@/router",
+    "^@/entities",
     "^@/stores",
     "^@/components",
     "^[./]"

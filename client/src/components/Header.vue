@@ -1,34 +1,14 @@
 <script setup lang="ts">
-  import { computed, onMounted, ref } from 'vue'
   import { RouterLink, useRouter } from 'vue-router'
 
-  import { getUser } from '@/api'
+  import { useGetMe } from '@/entities/user/api'
 
   import { useUserStore } from '@/stores/userStore'
 
   const router = useRouter()
   const userStore = useUserStore()
 
-  const token = computed(() => localStorage.getItem('token'))
-
-  const loading = ref(false)
-  const error = ref('')
-
-  onMounted(async () => {
-    if (!token.value) {
-      return
-    }
-
-    loading.value = true
-    const response = await getUser()
-    loading.value = false
-
-    if ('error' in response) {
-      error.value = response.error
-    } else {
-      userStore.setUser(response)
-    }
-  })
+  const { loading, error } = useGetMe()
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -40,7 +20,10 @@
 <template>
   <header v-if="userStore.user?.username" id="header" class="header">
     <div class="container">
-      <span>{{ loading ? 'Loading...' : userStore.user?.username }}</span>
+      <span
+        >{{ loading ? 'Loading...' : userStore.user?.username }}
+        {{ error ? error : '' }}
+      </span>
       <nav class="header__nav">
         <ol class="header__list">
           <li>
