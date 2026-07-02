@@ -1,44 +1,13 @@
+import type { AxiosResponse } from 'axios'
+
 import { onMounted, ref } from 'vue'
 
-import { router } from '@/router'
+import { apiInstance } from './base'
 
-import { BASE_URL, refresh } from './base'
-
-const getRequest = async <T>(url: string): Promise<T> => {
-  const token = localStorage.getItem('token')
-
-  const headerAuthorization: { Authorization?: string } = {}
-
-  if (token) {
-    headerAuthorization['Authorization'] = `Bearer ${token}`
-  }
-
+const getRequest = async <T>(url: string): Promise<AxiosResponse<T>> => {
   try {
-    const res = await fetch(`${BASE_URL}${url}`, {
-      headers: {
-        ...headerAuthorization,
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include'
-    })
-
-    if (res.status === 401) {
-      const responseRefresh = await refresh()
-
-      if (responseRefresh.status !== 200) {
-        localStorage.removeItem('token')
-        router.replace({ name: 'Login' })
-        console.error('error refresh')
-        throw new Error('Error refresh') // { error: 'Error refresh' }
-      }
-
-      const { token } = await responseRefresh.json()
-      localStorage.setItem('token', token)
-      return getRequest(url)
-    }
-
-    const response = await res.json()
-    return response
+    const res = await apiInstance.get(url)
+    return res
   } catch (e) {
     console.error(e)
     throw new Error(String(e)) // { error: String(e) }
