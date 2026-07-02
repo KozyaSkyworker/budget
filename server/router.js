@@ -2,6 +2,7 @@ import { Router } from "express";
 import authController from "./controllers/AuthController.js";
 import userController from "./controllers/UserController.js";
 import transactionController from "./controllers/TransactionController.js";
+import { checkTokenMiddleware } from './middleware/checkToken.js'
 
 const router = Router({ mergeParams: true });
 
@@ -10,11 +11,11 @@ router.post("/registration", authController.registration);
 router.post("/logout", authController.logout);
 router.post("/refresh", authController.refresh);
 
-router.get("/me", userController.getMe);
+router.get("/me", checkTokenMiddleware, userController.getMe);
 
-router.get("/transactions", transactionController.getTransactions);
+router.get("/transactions", checkTokenMiddleware, transactionController.getTransactions);
 router.get(
-  "/transactions/users",
+  "/transactions/users", checkTokenMiddleware,
   transactionController.getUsersWithTransactions,
 );
 

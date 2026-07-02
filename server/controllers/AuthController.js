@@ -95,11 +95,16 @@ class AuthController {
       const verified = tokentsController.validateRefreshToken(refreshToken);
 
       if (!verified) {
-        return res.status(403).json({ message: "Refresh error" });
+        return res.status(401).json({ message: "Refresh error" });
       }
 
       const { username } = verified;
       const user = users.find((user) => user.username === username);
+
+      if (!user) {
+        return res.status(401).json({ message: "Refresh error" });
+      }
+
       const tokens = tokentsController.generateTokens({
         role: user.role,
         username: user.username,
