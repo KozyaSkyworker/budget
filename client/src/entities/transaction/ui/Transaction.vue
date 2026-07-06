@@ -1,9 +1,8 @@
 <script setup lang="ts">
   import type { ITransaction } from '@/types'
 
-  import { useDeleteTransaction } from '@/entities/transaction/api'
-
-  import { useTranscationsStore } from '@/stores/transactionsStore'
+  import { useDeleteTransaction } from '../api'
+  import { useTranscationsStore } from '../store'
 
   const { title, date, type, category, amount, user, comment, id } =
     defineProps<ITransaction>()

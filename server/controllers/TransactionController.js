@@ -5,7 +5,12 @@ import { SECRET } from "../config.js";
 class TransactionController {
   getTransactions = (req, res) => {
     try {
-      res.status(200).json(dataClass.getData());
+      const {username} = req.query
+      let ans = dataClass.getData()
+      if (username) {
+        ans = ans.filter((transaction) => transaction.user === username)
+      } 
+      res.status(200).json(ans);
     } catch (error) {
       console.table(error);
 

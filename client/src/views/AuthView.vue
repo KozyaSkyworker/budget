@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import { computed, ref, useTemplateRef, watch } from 'vue'
+  import { computed, reactive, ref, useTemplateRef, watch } from 'vue'
   import { useRouter } from 'vue-router'
 
   import { login, registration } from '@/api'
 
-  import { useUserStore } from '@/stores/userStore'
+  import { useUserStore } from '@/entities/user/store'
 
   const { action } = defineProps<{
     action: 'login' | 'registration'
@@ -15,8 +15,10 @@
 
   const input = useTemplateRef('input')
 
-  const username = ref('')
-  const password = ref('')
+  const formData = reactive({
+    username: '',
+    password: ''
+  })
 
   const isLoading = ref(false)
   const error = ref('')
@@ -25,8 +27,8 @@
     () => action,
     () => {
       input.value?.focus()
-      username.value = ''
-      password.value = ''
+      formData.username = ''
+      formData.password = ''
       error.value = ''
     }
   )
@@ -41,14 +43,13 @@
 
   const handleSubmit = (event: Event) => {
     event.preventDefault()
-    const userData = { username: username.value, password: password.value }
 
     const request = async () => {
       isLoading.value = true
       const res =
         action === 'login'
-          ? await login(userData)
-          : await registration(userData)
+          ? await login(formData)
+          : await registration(formData)
       isLoading.value = false
       if ('error' in res) {
         error.value = res.error
@@ -80,7 +81,7 @@
         <input
           id="username"
           ref="input"
-          v-model.trim="username"
+          v-model.trim="formData.username"
           type="text"
           name="username"
           autofocus
@@ -93,7 +94,7 @@
         <span class="label__text">Password</span>
         <input
           id="password"
-          v-model.trim="password"
+          v-model.trim="formData.password"
           type="password"
           name="password"
           required

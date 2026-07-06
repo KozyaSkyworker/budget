@@ -1,6 +1,6 @@
 import type { AxiosResponse } from 'axios'
 
-import { type Ref, ref, watch } from 'vue'
+import { type Ref, ref, toValue, watchEffect } from 'vue'
 
 import { apiInstance } from './base'
 
@@ -15,39 +15,36 @@ const getRequest = async <T>(url: string): Promise<AxiosResponse<T>> => {
 }
 
 export function useGetRequest<T>(
-  url: string,
-  watchTo?: Ref<string | undefined>
+  url: string | Ref<string>,
+  {
+    onSuccess,
+    watchTo
+  }: { watchTo?: Ref<string | undefined>; onSuccess?: () => void } = {}
 ) {
   const loading = ref(false)
   const error = ref('')
   const data = ref<T | undefined>(undefined)
 
-  const request = async () => {
+  watchEffect(async () => {
+    const currentUrl = toValue(url)
+
+    if (watchTo) {
+      toValue(watchTo)
+    }
+
     loading.value = true
-    const response = await getRequest<T>(url)
-    data.value = response
+    error.value = ''
+
     try {
+      const response = await getRequest<T>(currentUrl)
+      data.value = response
+      onSuccess?.()
     } catch (e) {
       error.value = String(e)
     } finally {
       loading.value = false
     }
-  }
-
-  // onMounted(request)
-
-  // watchEffect(async () => {
-  //   console.log(watchTo)
-  //   request()
-  // })
-
-  request()
-
-  if (watchTo) {
-    watch(watchTo, () => {
-      request()
-    })
-  }
+  })
 
   return { loading, error, data }
 }

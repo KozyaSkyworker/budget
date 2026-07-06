@@ -2,7 +2,7 @@
   import { computed } from 'vue'
   import { RouterView } from 'vue-router'
 
-  import { useUserStore } from '@/stores/userStore'
+  import { useUserStore } from '@/entities/user/store'
 
   import Header from '@/components/Header.vue'
 

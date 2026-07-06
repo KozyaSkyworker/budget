@@ -52,13 +52,13 @@ export function doRequest<Response, Request>(url: string, method?: TMethods) {
 
   const mutate = async (values: Request) => {
     loading.value = true
-    const response = await apiInstanceRequest<Response, Request>(
-      url,
-      values,
-      method
-    )
-    data.value = response
     try {
+      const response = await apiInstanceRequest<Response, Request>(
+        url,
+        values,
+        method
+      )
+      data.value = response
     } catch (e) {
       error.value = String(e)
     } finally {

@@ -2,8 +2,7 @@
   import { RouterLink, useRouter } from 'vue-router'
 
   import { useGetMe } from '@/entities/user/api'
-
-  import { useUserStore } from '@/stores/userStore'
+  import { useUserStore } from '@/entities/user/store'
 
   const router = useRouter()
   const userStore = useUserStore()
