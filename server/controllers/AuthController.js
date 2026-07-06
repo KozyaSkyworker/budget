@@ -87,6 +87,7 @@ class AuthController {
     const { refreshToken } = req.cookies;
     const accessToken = req.headers.authorization?.split(" ")[1];
 
+
     if (!refreshToken || !accessToken) {
       return res.status(401).json({ message: "Refresh error" });
     }
