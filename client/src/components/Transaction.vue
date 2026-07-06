@@ -1,19 +1,23 @@
 <script setup lang="ts">
   import type { ITransaction } from '@/types'
 
-  import { useTranscationsStore } from '@/stores/transactionsStore'
+  import { useDeleteTransaction } from '@/entities/transaction/api'
 
-  const transcationsStore = useTranscationsStore()
+  import { useTranscationsStore } from '@/stores/transactionsStore'
 
   const { title, date, type, category, amount, user, comment, id } =
     defineProps<ITransaction>()
 
+  const transcationsStore = useTranscationsStore()
+
+  const { loading, mutate } = useDeleteTransaction()
+
   const sign = type === 'Пополнение' ? '+' : '-'
 
-  const handleClick = () => {
-    transcationsStore.setLastAction(`delete t with id ${id}`)
+  const handleClick = async () => {
     console.log('log', `delete t with id ${id}`)
-    // delete id doRequest(...)
+    await mutate(id)
+    transcationsStore.setLastAction(`delete t with id ${id}`)
   }
 </script>
 
@@ -36,7 +40,7 @@
       <small v-if="comment">Комментарий: {{ comment }}</small>
       <div>
         <button>Редактировать</button>
-        <button @click="handleClick">Удалить</button>
+        <button :disabled="loading" @click="handleClick">Удалить</button>
       </div>
     </footer>
   </article>

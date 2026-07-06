@@ -1,6 +1,6 @@
 import { toRef } from 'vue'
 
-import { useGetRequest } from '@/api'
+import { doRequest, useGetRequest } from '@/api'
 
 import type { ITransaction } from '@/types'
 
@@ -15,6 +15,14 @@ export function useGetTransactions() {
   )
 
   return { loading, error, data }
+}
+
+export function useDeleteTransaction() {
+  const { loading, error, data, mutate } = doRequest<ITransaction, number>(
+    '/transactions',
+    'delete'
+  )
+  return { loading, error, data, mutate }
 }
 
 export function useGetTransactionsUsers() {
