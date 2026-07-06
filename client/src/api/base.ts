@@ -43,7 +43,11 @@ apiInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      error.config.url !== '/refresh'
+    ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject })
@@ -59,7 +63,13 @@ apiInstance.interceptors.response.use(
       isRefreshing = true
 
       try {
-        const { data } = await apiInstance.post('/refresh')
+        const refreshResponse = await apiInstance.post('/refresh')
+
+        if (refreshResponse.status !== 200) {
+          throw new Error(refreshResponse.statusText)
+        }
+
+        const { data } = refreshResponse
 
         const newToken = data.token
         localStorage.setItem('token', newToken)
@@ -82,22 +92,22 @@ apiInstance.interceptors.response.use(
   }
 )
 
-export const refresh = async () => {
-  const token = localStorage.getItem('token')
+// export const refresh = async () => {
+//   const token = localStorage.getItem('token')
 
-  const headerAuthorization: { Authorization?: string } = {}
+//   const headerAuthorization: { Authorization?: string } = {}
 
-  if (token) {
-    headerAuthorization['Authorization'] = `Bearer ${token}`
-  }
-  const response = await fetch(`${BASE_URL}/refresh`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      ...headerAuthorization
-    },
-    credentials: 'include'
-  })
+//   if (token) {
+//     headerAuthorization['Authorization'] = `Bearer ${token}`
+//   }
+//   const response = await fetch(`${BASE_URL}/refresh`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       ...headerAuthorization
+//     },
+//     credentials: 'include'
+//   })
 
-  return response
-}
+//   return response
+// }

@@ -1,9 +1,17 @@
 <script setup lang="ts">
-  import { useGetTransactions } from '@/entities/transaction/api'
+  import {
+    useGetTransactions,
+    useGetTransactionsUsers
+  } from '@/entities/transaction/api'
 
   import Transaction from '@/components/Transaction.vue'
 
   const { data: transactions, error, loading } = useGetTransactions()
+  const {
+    data: usersWithTransactions,
+    error: usersWithTransactionsErrorLoading,
+    loading: usersWithTransactionsLoading
+  } = useGetTransactionsUsers()
 </script>
 
 <template>
@@ -29,7 +37,13 @@
         <button>+ create</button>
       </div>
       <div class="filter">
-        <button>username</button>
+        <p v-if="usersWithTransactionsLoading">Loading...</p>
+        <p v-if="usersWithTransactionsErrorLoading">
+          Error: {{ usersWithTransactionsErrorLoading }}
+        </p>
+        <button v-for="user in usersWithTransactions" :key="user">
+          {{ user }}
+        </button>
       </div>
     </div>
   </div>

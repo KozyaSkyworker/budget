@@ -8,7 +8,7 @@ import { PORT } from "./config.js";
 
 const CORS_OPTIONS = {
   origin: "http://localhost:5173",
-  methods: ["GET", "POST", "OPTIONS"],
+  methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
   credentials: true,
 };
 
