@@ -10,7 +10,7 @@ export const users = [
   },
 ];
 
-export const MOCK_DATA = [
+export let MOCK_DATA = [
   {
     id: 1,
     title: "Пополнение счета",
