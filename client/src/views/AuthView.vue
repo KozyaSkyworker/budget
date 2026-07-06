@@ -4,7 +4,7 @@
 
   import { login, registration } from '@/api'
 
-  import { useUserStore } from '@/stores/userStore'
+  import { useUserStore } from '@/entities/user/store'
 
   const { action } = defineProps<{
     action: 'login' | 'registration'

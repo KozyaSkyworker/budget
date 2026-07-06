@@ -1,23 +1,19 @@
-import { watch } from 'vue'
-
 import { useGetRequest } from '@/api'
 
 import type { IUser } from '@/types'
 
-import { useUserStore } from '@/stores/userStore'
+import { useUserStore } from '../store'
 
 export function useGetMe() {
-  const { loading, error, data } = useGetRequest<IUser>('/me')
   const userStore = useUserStore()
 
-  watch(
-    () => data.value,
-    () => {
+  const { loading, error, data } = useGetRequest<IUser>('/me', {
+    onSuccess: () => {
       if (data.value) {
         userStore.setUser(data.value)
       }
     }
-  )
+  })
 
   return { loading, error, data }
 }

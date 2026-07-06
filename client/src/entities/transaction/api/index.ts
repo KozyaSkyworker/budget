@@ -1,18 +1,22 @@
-import { toRef } from 'vue'
+import { type ComputedRef, computed, toRef } from 'vue'
 
 import { doRequest, useGetRequest } from '@/api'
 
 import type { ITransaction } from '@/types'
 
-import { useTranscationsStore } from '@/stores/transactionsStore'
+import { useTranscationsStore } from '../store'
 
-export function useGetTransactions() {
+export function useGetTransactions(selectedUsername: ComputedRef<string>) {
   const transactionStore = useTranscationsStore()
   const lastActionRef = toRef(transactionStore, 'lastAction')
-  const { loading, error, data } = useGetRequest<ITransaction[]>(
-    '/transactions',
-    lastActionRef
+  const url = computed(() =>
+    selectedUsername.value
+      ? `/transactions?username=${selectedUsername.value}`
+      : '/transactions'
   )
+  const { loading, error, data } = useGetRequest<ITransaction[]>(url, {
+    watchTo: lastActionRef
+  })
 
   return { loading, error, data }
 }
