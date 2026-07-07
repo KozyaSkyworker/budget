@@ -29,6 +29,14 @@ export function useDeleteTransaction() {
   return { loading, error, data, mutate }
 }
 
+export function useCreateTransaction() {
+  const { loading, error, data, mutate } = doRequest<
+    ITransaction,
+    Omit<ITransaction, 'id'>
+  >('/transactions', 'post')
+  return { loading, error, data, mutate }
+}
+
 export function useGetTransactionsUsers() {
   const { loading, error, data } = useGetRequest<string[]>(
     '/transactions/users'

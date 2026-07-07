@@ -2,7 +2,7 @@ const MOCK_DATA = [
   {
     id: 1,
     title: "Пополнение счета",
-    date: "1 июня 2026",
+    date: "01.06.2026",
     type: "Пополнение",
     category: "Зарплата",
     amount: 45000,
@@ -12,7 +12,7 @@ const MOCK_DATA = [
   {
     id: 2,
     title: "Покупка продуктов",
-    date: "2 июня 2026",
+    date: "02.06.2026",
     type: "Списание",
     category: "Продукты",
     amount: 1250,
@@ -21,7 +21,7 @@ const MOCK_DATA = [
   {
     id: 3,
     title: "Оплата VPN",
-    date: "3 июня 2026",
+    date: "03.06.2026",
     type: "Списание",
     category: "Подписка",
     amount: 222,
@@ -31,7 +31,7 @@ const MOCK_DATA = [
   {
     id: 4,
     title: "Перевод от клиента",
-    date: "4 июня 2026",
+    date: "04.06.2026",
     type: "Пополнение",
     category: "Услуги",
     amount: 8700,
@@ -40,7 +40,7 @@ const MOCK_DATA = [
   {
     id: 5,
     title: "Такси до офиса",
-    date: "5 июня 2026",
+    date: "05.06.2026",
     type: "Списание",
     category: "Транспорт",
     amount: 340,
@@ -49,7 +49,7 @@ const MOCK_DATA = [
   {
     id: 6,
     title: "Обед в кафе",
-    date: "6 июня 2026",
+    date: "06.06.2026",
     type: "Списание",
     category: "Еда",
     amount: 560,
@@ -58,7 +58,7 @@ const MOCK_DATA = [
   {
     id: 7,
     title: "Аванс за проект",
-    date: "7 июня 2026",
+    date: "07.06.2026",
     type: "Пополнение",
     category: "Фриланс",
     amount: 15000,
@@ -67,7 +67,7 @@ const MOCK_DATA = [
   {
     id: 8,
     title: "Покупка книг",
-    date: "8 июня 2026",
+    date: "08.06.2026",
     type: "Списание",
     category: "Образование",
     amount: 2100,
@@ -76,7 +76,7 @@ const MOCK_DATA = [
   {
     id: 9,
     title: "Коммунальные платежи",
-    date: "9 июня 2026",
+    date: "09.06.2026",
     type: "Списание",
     category: "Коммуналка",
     amount: 3800,
@@ -85,7 +85,7 @@ const MOCK_DATA = [
   {
     id: 10,
     title: "Кэшбэк по карте",
-    date: "10 июня 2026",
+    date: "10.06.2026",
     type: "Пополнение",
     category: "Бонус",
     amount: 500,
@@ -94,7 +94,7 @@ const MOCK_DATA = [
   {
     id: 11,
     title: "Абонемент в спортзал",
-    date: "11 июня 2026",
+    date: "11.06.2026",
     type: "Списание",
     category: "Здоровье",
     amount: 3200,
@@ -103,7 +103,7 @@ const MOCK_DATA = [
   {
     id: 12,
     title: "Заправка авто",
-    date: "12 июня 2026",
+    date: "12.06.2026",
     type: "Списание",
     category: "Транспорт",
     amount: 2750,
@@ -112,7 +112,7 @@ const MOCK_DATA = [
   {
     id: 13,
     title: "Дивиденды от акций",
-    date: "13 июня 2026",
+    date: "13.06.2026",
     type: "Пополнение",
     category: "Инвестиции",
     amount: 6200,
@@ -121,7 +121,7 @@ const MOCK_DATA = [
   {
     id: 14,
     title: "Покупка кофе",
-    date: "14 июня 2026",
+    date: "14.06.2026",
     type: "Списание",
     category: "Еда",
     amount: 180,
@@ -130,7 +130,7 @@ const MOCK_DATA = [
   {
     id: 15,
     title: "Оплата хостинга",
-    date: "15 июня 2026",
+    date: "15.06.2026",
     type: "Списание",
     category: "Подписка",
     amount: 890,
@@ -139,7 +139,7 @@ const MOCK_DATA = [
   {
     id: 16,
     title: "Зарплата за май",
-    date: "16 июня 2026",
+    date: "16.06.2026",
     type: "Пополнение",
     category: "Зарплата",
     amount: 47000,
@@ -148,7 +148,7 @@ const MOCK_DATA = [
   {
     id: 17,
     title: "Поход в кино",
-    date: "17 июня 2026",
+    date: "17.06.2026",
     type: "Списание",
     category: "Развлечения",
     amount: 850,
@@ -157,7 +157,7 @@ const MOCK_DATA = [
   {
     id: 18,
     title: "Ремонт телефона",
-    date: "18 июня 2026",
+    date: "18.06.2026",
     type: "Списание",
     category: "Техника",
     amount: 4200,
@@ -166,7 +166,7 @@ const MOCK_DATA = [
   {
     id: 19,
     title: "Возврат за товар",
-    date: "19 июня 2026",
+    date: "19.06.2026",
     type: "Пополнение",
     category: "Возврат",
     amount: 2300,
@@ -175,7 +175,7 @@ const MOCK_DATA = [
   {
     id: 20,
     title: "Покупка подарка",
-    date: "20 июня 2026",
+    date: "20.06.2026",
     type: "Списание",
     category: "Развлечения",
     amount: 1500,
@@ -184,7 +184,7 @@ const MOCK_DATA = [
   {
     id: 21,
     title: "Оплата курсов",
-    date: "21 июня 2026",
+    date: "21.06.2026",
     type: "Списание",
     category: "Образование",
     amount: 12500,
@@ -193,7 +193,7 @@ const MOCK_DATA = [
   {
     id: 22,
     title: "Проценты по вкладу",
-    date: "22 июня 2026",
+    date: "22.06.2026",
     type: "Пополнение",
     category: "Депозит",
     amount: 1200,
@@ -202,7 +202,7 @@ const MOCK_DATA = [
   {
     id: 23,
     title: "Стрижка",
-    date: "23 июня 2026",
+    date: "23.06.2026",
     type: "Списание",
     category: "Услуги",
     amount: 1000,
@@ -211,13 +211,18 @@ const MOCK_DATA = [
   {
     id: 24,
     title: "Пополнение от партнёра",
-    date: "24 июня 2026",
+    date: "24.06.2026",
     type: "Пополнение",
     category: "Другое",
     amount: 3200,
     user: "third user",
   },
 ];
+
+const parseDate = (dateStr) => {
+  const [day, month, year] = dateStr.split('.');
+  return new Date(year, month - 1, day);
+};
 
 class DataClass {
     
@@ -233,8 +238,12 @@ class DataClass {
         return this.data.find(item => item.id === id)
     }
 
-    getData () {
-        return this.data
+    getData (sort = 'desc') {
+       if (sort === 'asc') {
+         return this.data.sort((a, b) => parseDate(a.date) - parseDate(b.date))
+        } 
+
+        return this.data.sort((a, b) => parseDate(b.date) - parseDate(a.date))
     }
     
     append(newData) {

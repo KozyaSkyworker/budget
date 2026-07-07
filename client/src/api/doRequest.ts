@@ -13,7 +13,7 @@ const apiInstanceMethodRequest = <Request>(
 ) => {
   switch (method) {
     case 'post':
-      return apiInstance.post
+      return apiInstance.post(url, data)
     case 'put':
       return apiInstance.put
     case 'delete':
