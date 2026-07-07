@@ -14,6 +14,7 @@ router.post("/refresh", authController.refresh);
 router.get("/me", checkTokenMiddleware, userController.getMe);
 
 router.get("/transactions", checkTokenMiddleware, transactionController.getTransactions);
+router.post("/transactions", checkTokenMiddleware, transactionController.createTransaction);
 router.delete("/transactions/:id", checkTokenMiddleware, transactionController.deleteTransaction);
 router.get(
   "/transactions/users", checkTokenMiddleware,

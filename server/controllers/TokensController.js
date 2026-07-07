@@ -9,7 +9,7 @@ class TokensController {
       role,
     };
 
-    const accessToken = jwt.sign(payload, SECRET, { expiresIn: "5s" });
+    const accessToken = jwt.sign(payload, SECRET, { expiresIn: "15s" });
     const refreshToken = jwt.sign(payload, SECRET, { expiresIn: "1d" });
 
     // tokens.set(refreshToken, username);

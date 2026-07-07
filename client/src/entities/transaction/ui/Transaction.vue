@@ -14,6 +14,8 @@
   const sign = type === 'Пополнение' ? '+' : '-'
 
   const handleClick = async () => {
+    if (!confirm('Вы действительно хотите удалить транзакцию?')) return
+
     console.log('log', `delete t with id ${id}`)
     await mutate(id)
     transcationsStore.setLastAction(`delete t with id ${id}`)
