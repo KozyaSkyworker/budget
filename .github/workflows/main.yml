@@ -2,13 +2,15 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 
-strategy:
-  matrix:
-    node-version: ['20.0.0']
+
 
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['20.x']
+
     steps:
      - run: echo "hi there"
      - uses: actions/checkout@v6
