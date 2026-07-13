@@ -11,3 +11,8 @@ export interface ITransaction {
   user: string // TODO: user {}
   comment?: string
 }
+
+export interface ITransactionDTO {
+  date: string
+  items: ITransaction[]
+}

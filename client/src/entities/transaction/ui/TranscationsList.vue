@@ -11,18 +11,22 @@
     () => (route.query.username as string | undefined) || ''
   )
 
+  const selectedSort = computed(
+    () => (route.query.sort as string | undefined) || ''
+  )
+
   const {
     data: transactions,
     error,
     loading
-  } = useGetTransactions(selectedUsername)
+  } = useGetTransactions(selectedUsername, selectedSort)
 </script>
 <template>
   <section class="main__block transactions">
     <p v-if="loading">Loading...</p>
     <p v-else-if="error">Error: {{ error }}</p>
     <ul v-else-if="transactions?.length">
-      <li v-for="transaction in transactions" :key="transaction.id">
+      <li v-for="transaction in transactions" :key="transaction.date">
         <Transaction v-bind="transaction" />
       </li>
     </ul>

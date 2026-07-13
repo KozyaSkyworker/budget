@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AuthView from './views/AuthView.vue'
 import HomeView from './views/HomeView.vue'
 import PageNotFound from './views/PageNotFound.vue'
+import PricesView from './views/PricesView.vue'
 
 const routes = [
   { path: '/', component: HomeView, name: 'Home' },
@@ -17,6 +18,11 @@ const routes = [
     component: AuthView,
     name: 'Registration',
     props: { action: 'registration' }
+  },
+  {
+    path: '/prices',
+    component: PricesView,
+    name: 'Prices'
   },
   { path: '/:pathMatch(.*)*', component: PageNotFound, name: 'PageNotFound' }
 ]

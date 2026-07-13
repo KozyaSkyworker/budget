@@ -14,6 +14,7 @@
   const handleClick = (username: string) => {
     router.push({
       query: {
+        ...router.currentRoute.value.query,
         username: username
       }
     })
@@ -21,7 +22,10 @@
 
   const reset = () => {
     router.push({
-      query: {}
+      query: {
+        ...router.currentRoute.value.query,
+        username: undefined
+      }
     })
   }
 </script>
@@ -47,6 +51,6 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.5rem;
   }
 </style>

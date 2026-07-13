@@ -63,11 +63,26 @@
 
     <div class="tranaction-create__item">
       <div>Type *:</div>
-      <input id="add" v-model="formData.type" type="radio" value="Пополнение" />
-      <label for="add">Пополнение</label>
-
-      <input id="minus" v-model="formData.type" type="radio" value="Списание" />
-      <label for="minus">Списание</label>
+      <div>
+        <div>
+          <input
+            id="add"
+            v-model="formData.type"
+            type="radio"
+            value="Пополнение"
+          />
+          <label for="add">Пополнение</label>
+        </div>
+        <div>
+          <input
+            id="minus"
+            v-model="formData.type"
+            type="radio"
+            value="Списание"
+          />
+          <label for="minus">Списание</label>
+        </div>
+      </div>
     </div>
     <div class="tranaction-create__item">
       <label for="category">Category *</label>
@@ -82,7 +97,7 @@
     <div class="tranaction-create__item amount">
       <label for="amount">Amount *</label>
       <div>
-        <span>{{ sign }}</span>
+        <span class="sign">{{ sign }}</span>
         <input
           id="amount"
           v-model="formData.amount"
@@ -130,7 +145,6 @@
   .transaction-create {
     background: rgb(216, 245, 191);
     padding: 1rem;
-    margin-top: 1rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: end;
@@ -143,5 +157,10 @@
   }
   .tranaction-create__item.button {
     height: min-content;
+  }
+
+  .sign {
+    width: 10px;
+    display: block;
   }
 </style>
