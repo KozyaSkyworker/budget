@@ -2,18 +2,14 @@
   import { ref } from 'vue'
 
   import TransactionCreate from '@/entities/transaction/ui/TransactionCreate.vue'
+  import TransactionSort from '@/entities/transaction/ui/TransactionSort.vue'
   import TransactionsUsers from '@/entities/transaction/ui/TransactionsUsers.vue'
   import TranscationsList from '@/entities/transaction/ui/TranscationsList.vue'
 
   const currentAction = ref<'filter' | 'create'>('filter')
-  const currentSort = ref<'asc' | 'desc'>('desc')
 
   const toggleAction = (action: 'filter' | 'create') => {
     currentAction.value = action
-  }
-
-  const toggleSort = () => {
-    currentSort.value = currentSort.value === 'asc' ? 'desc' : 'asc'
   }
 </script>
 
@@ -25,12 +21,7 @@
         <input placeholder="search" />
         <div>
           <button @click="toggleAction('filter')">filter</button>
-          <button
-            :title="currentSort === 'asc' ? 'change to desc' : 'change to asc'"
-            @click="toggleSort"
-          >
-            sorted by {{ currentSort }}
-          </button>
+          <TransactionSort />
           <button @click="toggleAction('create')">+ create</button>
         </div>
       </div>

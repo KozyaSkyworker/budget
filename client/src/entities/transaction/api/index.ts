@@ -2,19 +2,29 @@ import { type ComputedRef, computed, toRef } from 'vue'
 
 import { doRequest, useGetRequest } from '@/api'
 
-import type { ITransaction } from '@/types'
+import type { ITransaction, ITransactionDTO } from '@/types'
 
 import { useTranscationsStore } from '../store'
 
-export function useGetTransactions(selectedUsername: ComputedRef<string>) {
+export function useGetTransactions(
+  selectedUsername: ComputedRef<string>,
+  selectedSort: ComputedRef<string>
+) {
   const transactionStore = useTranscationsStore()
   const lastActionRef = toRef(transactionStore, 'lastAction')
-  const url = computed(() =>
-    selectedUsername.value
-      ? `/transactions?username=${selectedUsername.value}`
-      : '/transactions'
-  )
-  const { loading, error, data } = useGetRequest<ITransaction[]>(url, {
+  const url = computed(() => {
+    const url = new URL(`/transactions`, 'http://localhost:3000')
+
+    if (selectedSort.value) {
+      url.searchParams.set('sort', selectedSort.value)
+    }
+    if (selectedUsername.value) {
+      url.searchParams.set('username', selectedUsername.value)
+    }
+
+    return `${url.pathname}${url.search}`
+  })
+  const { loading, error, data } = useGetRequest<ITransactionDTO[]>(url, {
     watchTo: lastActionRef
   })
 

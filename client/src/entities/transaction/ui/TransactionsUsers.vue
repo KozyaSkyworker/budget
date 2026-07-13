@@ -14,6 +14,7 @@
   const handleClick = (username: string) => {
     router.push({
       query: {
+        ...router.currentRoute.value.query,
         username: username
       }
     })

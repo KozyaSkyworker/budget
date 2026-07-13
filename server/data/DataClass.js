@@ -12,7 +12,7 @@ const MOCK_DATA = [
   {
     id: 2,
     title: "Покупка продуктов",
-    date: "02.06.2026",
+    date: "01.06.2026",
     type: "Списание",
     category: "Продукты",
     amount: 1250,
@@ -58,7 +58,7 @@ const MOCK_DATA = [
   {
     id: 7,
     title: "Аванс за проект",
-    date: "07.06.2026",
+   date: "06.06.2026",
     type: "Пополнение",
     category: "Фриланс",
     amount: 15000,
@@ -67,7 +67,7 @@ const MOCK_DATA = [
   {
     id: 8,
     title: "Покупка книг",
-    date: "08.06.2026",
+   date: "06.06.2026",
     type: "Списание",
     category: "Образование",
     amount: 2100,
@@ -238,12 +238,44 @@ class DataClass {
         return this.data.find(item => item.id === id)
     }
 
-    getData (sort = 'desc') {
-       if (sort === 'asc') {
-         return this.data.sort((a, b) => parseDate(a.date) - parseDate(b.date))
+    sortData(data, sort) {
+      if (sort === 'asc') {
+         return data.toSorted((a, b) => parseDate(a.date) - parseDate(b.date))
         } 
 
-        return this.data.sort((a, b) => parseDate(b.date) - parseDate(a.date))
+        return data.toSorted((a, b) => parseDate(b.date) - parseDate(a.date))
+    }
+
+
+
+    getTransformedData ({username, sort = 'desc'}) {
+      const dateMap = new Map()
+      const data = this.getData()
+      for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        
+        if (username && element.user !== username) {
+          continue
+        }
+
+        if (!dateMap.has(element.date)) {
+          dateMap.set(element.date, [])
+        }
+        dateMap.get(element.date).push(element)
+      }
+
+      const transformedData =  Array.from(dateMap.entries().map(([date, items]) => ({
+        date,
+        items,
+      })))
+      const sortedData = this.sortData(transformedData, sort)
+
+   
+      return Array.from(sortedData)
+    }
+
+    getData () {
+      return this.data
     }
     
     append(newData) {
