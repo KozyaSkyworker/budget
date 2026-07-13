@@ -40,7 +40,7 @@
           {{ item.category }}
         </span>
         <small v-if="item.comment">Комментарий: {{ item.comment }}</small>
-        <div>
+        <div class="actions">
           <button>Редактировать</button>
           <button :disabled="loading" @click="handleDelete(item.id)">
             Удалить
@@ -58,6 +58,7 @@
     gap: 0.75rem;
     margin: 1rem 0;
   }
+
   .transaction {
     display: flex;
     flex-direction: column;
@@ -65,6 +66,7 @@
     border: 1px dashed black;
     padding: 1rem;
   }
+
   .type {
     display: flex;
     align-items: center;
@@ -72,6 +74,7 @@
   }
   .type .badge {
     background: crimson;
+    color: #fff;
   }
   .type .amount {
     color: crimson;
@@ -90,5 +93,10 @@
     border-radius: 0.45rem;
     width: max-content;
     padding: 0.25rem 0.5rem;
+  }
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
   }
 </style>

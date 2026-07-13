@@ -31,6 +31,9 @@
           <li>
             <RouterLink to="/charts">Go to Charts</RouterLink>
           </li>
+          <li>
+            <RouterLink to="/prices">Go to Prices</RouterLink>
+          </li>
           <li><button @click="handleLogout">Logout</button></li>
         </ol>
       </nav>
