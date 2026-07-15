@@ -27,7 +27,7 @@ export default typescriptEslint.config(
     rules: {
       '@typescript-eslint/no-explicit-any': 'error',
       'vue/multi-word-component-names': 'off',
-      'no-unused-vars': 'off',
+      // 'no-unused-vars': 'error',
       '@typescript-eslint/no-unused-vars': 'error',
       'prettier/prettier': [
         'error',

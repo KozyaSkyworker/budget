@@ -3,6 +3,7 @@
 
   import { useDeleteTransaction } from '../api'
   import { useTranscationsStore } from '../store'
+  import TransactionEdit from './TransactionEdit.vue'
 
   const { date, items } = defineProps<ITransactionDTO>()
 
@@ -41,7 +42,7 @@
         </span>
         <small v-if="item.comment">Комментарий: {{ item.comment }}</small>
         <div class="actions">
-          <button>Редактировать</button>
+          <TransactionEdit :transactionID="item.id" />
           <button :disabled="loading" @click="handleDelete(item.id)">
             Удалить
           </button>

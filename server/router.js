@@ -13,12 +13,17 @@ router.post("/refresh", authController.refresh);
 
 router.get("/me", checkTokenMiddleware, userController.getMe);
 
-router.get("/transactions", checkTokenMiddleware, transactionController.getTransactions);
-router.post("/transactions", checkTokenMiddleware, transactionController.createTransaction);
-router.delete("/transactions/:id", checkTokenMiddleware, transactionController.deleteTransaction);
 router.get(
   "/transactions/users", checkTokenMiddleware,
   transactionController.getUsersWithTransactions,
 );
+
+router.get("/transactions", checkTokenMiddleware, transactionController.getTransactions);
+router.post("/transactions", checkTokenMiddleware, transactionController.createTransaction);
+router.get("/transactions/:id", checkTokenMiddleware, transactionController.readTransaction);
+router.put("/transactions/:id", checkTokenMiddleware, transactionController.updateTransaction);
+router.delete("/transactions/:id", checkTokenMiddleware, transactionController.deleteTransaction);
+
+
 
 export default router;

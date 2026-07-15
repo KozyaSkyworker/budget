@@ -274,6 +274,11 @@ class DataClass {
       return Array.from(sortedData)
     }
 
+    update (id, newData) {
+      const index = this.data.findIndex(item => item.id === id)
+      this.data[index] = newData
+    }
+
     getData () {
       return this.data
     }

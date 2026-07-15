@@ -52,11 +52,28 @@ class TransactionController {
 
   }
 
+  readTransaction = (req, res) => {
+    try {
+      const { id } = req.params;
+      const transaction = dataClass.findById(Number(id))
+      res.status(200).json(transaction);
+    } catch (error) {
+      console.table(error);
+
+      if (error.message === "jwt expired") {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      res.status(400).json({ message: "Error" });
+    }
+
+  }
+
   updateTransaction = (req, res) => {
     try {
       const { id } = req.params;
       const updatedTransaction = { ...req.body, id };
-      // dataClass.deleteById(id)
+      dataClass.update(Number(id), updatedTransaction)
       res.status(200).json(updatedTransaction);
     } catch (error) {
       console.table(error);

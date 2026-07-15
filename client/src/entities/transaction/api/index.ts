@@ -31,11 +31,25 @@ export function useGetTransactions(
   return { loading, error, data }
 }
 
+export function useGetTransaction(transactionId: number) {
+  const { loading, error, data } = useGetRequest<ITransaction>(
+    `/transactions/${transactionId}`
+  )
+  return { loading, error, data }
+}
+
 export function useDeleteTransaction() {
   const { loading, error, data, mutate } = doRequest<ITransaction, number>(
     '/transactions',
     'delete'
   )
+  return { loading, error, data, mutate }
+}
+export function useUpdateTransaction() {
+  const { loading, error, data, mutate } = doRequest<
+    ITransaction,
+    { id: number; data: Omit<ITransaction, 'id'> }
+  >('/transactions', 'put')
   return { loading, error, data, mutate }
 }
 
