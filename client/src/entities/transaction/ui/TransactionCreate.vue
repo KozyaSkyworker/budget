@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { computed, reactive } from 'vue'
+  import { useRouter } from 'vue-router'
 
   import { type ITransaction } from '@/types'
 
@@ -7,6 +8,8 @@
 
   import { useCreateTransaction } from '../api'
   import { useTranscationsStore } from '../store'
+
+  const router = useRouter()
 
   const { loading, error, mutate } = useCreateTransaction()
 
@@ -25,15 +28,40 @@
 
   const sign = computed(() => (formData.type === 'Пополнение' ? '+' : '-'))
 
+  const resetForm = () => {
+    formData.title = ''
+    formData.date = new Date().toLocaleDateString()
+    formData.type = 'Пополнение'
+    formData.category = ''
+    formData.amount = 0
+    formData.comment = ''
+    formData.user = userStore.user?.username ?? ''
+  }
+
+  const onSuccessCb = (newTransactionUser: string) => {
+    router.push({
+      query: {
+        ...router.currentRoute.value.query,
+        username: newTransactionUser
+      }
+    })
+    resetForm()
+  }
+
   const handleSubmit = async (event: Event) => {
     event.preventDefault()
 
     console.log('log', `create new t`)
     console.table(formData)
     await mutate(formData)
+
+    if (!error.value) {
+      onSuccessCb(formData.user)
+    }
+
     // TODO: fix одинаковые не будут рефетчить?
     transcationsStore.setLastAction(
-      `create new t ${formData.title} ${sign.value} ${formData.amount}`
+      `create new t ${formData.title} ${sign.value} ${formData.amount} ${formData.date}`
     )
   }
 </script>
