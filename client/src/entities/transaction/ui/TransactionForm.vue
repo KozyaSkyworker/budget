@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, reactive } from 'vue'
+  import { computed, reactive, watch } from 'vue'
 
   import type { ITransaction } from '@/types'
 
@@ -52,6 +52,16 @@
           comment: '',
           user: userStore.user?.username ?? ''
         }
+  )
+
+  watch(
+    () => formDataProp,
+    (newVal) => {
+      if (newVal) {
+        Object.assign(formData, newVal)
+      }
+    },
+    { immediate: true, deep: true }
   )
 
   const sign = computed(() => (formData.type === 'Пополнение' ? '+' : '-'))

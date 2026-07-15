@@ -38,9 +38,9 @@ export default typescriptEslint.config(
             '^@/api',
             '^@/types',
             '^@/router',
+            '^@/widgets',
+            '^@/features',
             '^@/entities',
-            '^@/stores',
-            '^@/components',
             '^[./]'
           ]
         }

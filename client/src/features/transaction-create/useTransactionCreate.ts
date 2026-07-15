@@ -1,12 +1,12 @@
-<script setup lang="ts">
-  import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
-  import type { ITransaction } from '@/types/transcation.ts'
+import type { ITransaction } from '@/types'
 
-  import { useCreateTransaction } from '../api'
-  import { useTranscationsStore } from '../store'
-  import TransactionForm from './TransactionForm.vue'
+import { useTranscationsStore } from '@/entities/transaction/store'
 
+import { useCreateTransaction } from './api'
+
+export function useTransactionCreate() {
   const router = useRouter()
 
   const { loading, error, mutate } = useCreateTransaction()
@@ -36,13 +36,10 @@
       `create new t ${formData.title} ${formData.type} ${formData.amount} ${formData.date}`
     )
   }
-</script>
 
-<template>
-  <TransactionForm
-    :loading="loading"
-    :error="error"
-    :action="handleSubmit"
-    typeAction="create"
-  />
-</template>
+  return {
+    loading,
+    error,
+    create: handleSubmit
+  }
+}
