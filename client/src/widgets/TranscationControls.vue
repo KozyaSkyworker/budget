@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import { ref } from 'vue'
 
-  import TransactionCreate from '@/entities/transaction/ui/TransactionCreate.vue'
-  import TransactionSort from '@/entities/transaction/ui/TransactionSort.vue'
-  import TransactionsUsers from '@/entities/transaction/ui/TransactionsUsers.vue'
+  import TransactionCreate from '@/features/transaction-create/TransactionCreate.vue'
+  import TransactionSort from '@/features/transaction-sort/TransactionSort.vue'
+  import TransactionUsers from '@/features/transaction-users/TransactionUsers.vue'
 
   const currentAction = ref<'filter' | 'create'>('filter')
 
@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <TransactionsUsers v-if="currentAction === 'filter'" />
+    <TransactionUsers v-if="currentAction === 'filter'" />
     <TransactionCreate v-if="currentAction === 'create'" />
   </div>
 </template>

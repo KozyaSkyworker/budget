@@ -1,25 +1,9 @@
 <script setup lang="ts">
-  import { computed } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { useTransactionsRead } from '@/features/transactions-read/useTransactionsRead.ts'
 
-  import { useGetTransactions } from '../api'
   import Transaction from './Transaction.vue'
 
-  const route = useRoute()
-
-  const selectedUsername = computed(
-    () => (route.query.username as string | undefined) || ''
-  )
-
-  const selectedSort = computed(
-    () => (route.query.sort as string | undefined) || ''
-  )
-
-  const {
-    data: transactions,
-    error,
-    loading
-  } = useGetTransactions(selectedUsername, selectedSort)
+  const { transactions, loading, error } = useTransactionsRead()
 </script>
 <template>
   <section class="main__block transactions">

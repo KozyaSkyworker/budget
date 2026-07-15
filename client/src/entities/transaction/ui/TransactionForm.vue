@@ -1,49 +1,78 @@
 <script setup lang="ts">
-  import { computed, reactive } from 'vue'
+  import { computed, reactive, watch } from 'vue'
 
-  import { type ITransaction } from '@/types'
+  import type { ITransaction } from '@/types'
 
   import { useUserStore } from '@/entities/user/store'
 
-  import { useCreateTransaction } from '../api'
-  import { useTranscationsStore } from '../store'
-
-  const { loading, error, mutate } = useCreateTransaction()
-
   const userStore = useUserStore()
-  const transcationsStore = useTranscationsStore()
 
-  const formData = reactive<Omit<ITransaction, 'id'>>({
-    title: '',
-    date: new Date().toLocaleDateString(),
-    type: 'Пополнение',
-    category: '',
-    amount: 0,
-    comment: '',
-    user: userStore.user?.username ?? ''
-  })
+  const {
+    action,
+    error = '',
+    loading,
+    formDataProp,
+    typeAction
+  } = defineProps<{
+    action: (formData: Omit<ITransaction, 'id'>) => Promise<void>
+    typeAction: 'create' | 'update'
+    loading: boolean
+    error?: string
+    formDataProp?: Omit<ITransaction, 'id'>
+  }>()
 
-  const sign = computed(() => (formData.type === 'Пополнение' ? '+' : '-'))
+  const resetForm = () => {
+    formData.title = ''
+    formData.date = new Date().toLocaleDateString()
+    formData.type = 'Пополнение'
+    formData.category = ''
+    formData.amount = 0
+    formData.comment = ''
+    formData.user = userStore.user?.username ?? ''
+  }
 
   const handleSubmit = async (event: Event) => {
     event.preventDefault()
+    await action(formData)
 
-    console.log('log', `create new t`)
-    console.table(formData)
-    await mutate(formData)
-    // TODO: fix одинаковые не будут рефетчить?
-    transcationsStore.setLastAction(
-      `create new t ${formData.title} ${sign.value} ${formData.amount}`
-    )
+    if (!error) {
+      resetForm()
+    }
   }
+
+  const formData = reactive<Omit<ITransaction, 'id'>>(
+    formDataProp
+      ? { ...formDataProp }
+      : {
+          title: '',
+          date: new Date().toLocaleDateString(),
+          type: 'Пополнение',
+          category: '',
+          amount: 0,
+          comment: '',
+          user: userStore.user?.username ?? ''
+        }
+  )
+
+  watch(
+    () => formDataProp,
+    (newVal) => {
+      if (newVal) {
+        Object.assign(formData, newVal)
+      }
+    },
+    { immediate: true, deep: true }
+  )
+
+  const sign = computed(() => (formData.type === 'Пополнение' ? '+' : '-'))
 </script>
 
 <template>
   <form class="transaction-create" @submit="handleSubmit">
     <div class="tranaction-create__item">
-      <label for="title">Title *</label>
+      <label :for="`${typeAction}-title`">Title *</label>
       <input
-        id="title"
+        :id="`${typeAction}-title`"
         v-model="formData.title"
         type="text"
         placeholder="title"
@@ -51,9 +80,9 @@
       />
     </div>
     <div class="tranaction-create__item">
-      <label for="date">Date *</label>
+      <label :for="`${typeAction}-date`">Date *</label>
       <input
-        id="date"
+        :id="`${typeAction}-date`"
         v-model="formData.date"
         type="text"
         placeholder="date"
@@ -66,28 +95,28 @@
       <div>
         <div>
           <input
-            id="add"
+            :id="`${typeAction}-add`"
             v-model="formData.type"
             type="radio"
             value="Пополнение"
           />
-          <label for="add">Пополнение</label>
+          <label :for="`${typeAction}-add`">Пополнение</label>
         </div>
         <div>
           <input
-            id="minus"
+            :id="`${typeAction}-minus`"
             v-model="formData.type"
             type="radio"
             value="Списание"
           />
-          <label for="minus">Списание</label>
+          <label :for="`${typeAction}-minus`">Списание</label>
         </div>
       </div>
     </div>
     <div class="tranaction-create__item">
-      <label for="category">Category *</label>
+      <label :for="`${typeAction}-category`">Category *</label>
       <input
-        id="category"
+        :id="`${typeAction}-category`"
         v-model="formData.category"
         type="text"
         placeholder="category"
@@ -95,11 +124,11 @@
       />
     </div>
     <div class="tranaction-create__item amount">
-      <label for="amount">Amount *</label>
+      <label :for="`${typeAction}-amount`">Amount *</label>
       <div>
         <span class="sign">{{ sign }}</span>
         <input
-          id="amount"
+          :id="`${typeAction}-amount`"
           v-model="formData.amount"
           type="number"
           placeholder="amount"
@@ -108,9 +137,9 @@
       </div>
     </div>
     <div class="tranaction-create__item">
-      <label for="username">Username *</label>
+      <label :for="`${typeAction}-username`">Username *</label>
       <input
-        id="username"
+        :id="`${typeAction}-username`"
         v-model="formData.user"
         type="text"
         placeholder="username"
@@ -119,9 +148,9 @@
       />
     </div>
     <div class="tranaction-create__item">
-      <label for="comment">Comment</label>
+      <label :for="`${typeAction}-comment`">Comment</label>
       <input
-        id="comment"
+        :id="`${typeAction}-comment`"
         v-model="formData.comment"
         type="text"
         placeholder="comment"
@@ -132,7 +161,7 @@
       type="submit"
       :disabled="loading"
     >
-      Create
+      {{ typeAction === 'create' ? 'Create' : 'Update' }}
     </button>
 
     <div v-if="error">

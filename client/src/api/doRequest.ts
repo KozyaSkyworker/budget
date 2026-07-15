@@ -15,7 +15,8 @@ const apiInstanceMethodRequest = <Request>(
     case 'post':
       return apiInstance.post(url, data)
     case 'put':
-      return apiInstance.put
+      // @ts-expect-error bad ts
+      return apiInstance.put(`${url}/${data?.id}`, data?.data)
     case 'delete':
       return apiInstance.delete(`${url}/${data}`)
     case 'patch':

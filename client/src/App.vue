@@ -2,9 +2,9 @@
   import { computed } from 'vue'
   import { RouterView } from 'vue-router'
 
-  import { useUserStore } from '@/entities/user/store'
+  import Header from '@/widgets/Header.vue'
 
-  import Header from '@/components/Header.vue'
+  import { useUserStore } from '@/entities/user/store'
 
   const userStore = useUserStore()
 

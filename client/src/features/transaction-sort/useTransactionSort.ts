@@ -1,7 +1,7 @@
-<script setup lang="ts">
-  import { ref } from 'vue'
-  import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+export function useTransactionSort() {
   const router = useRouter()
 
   const currentSort = ref<'asc' | 'desc'>('desc')
@@ -15,13 +15,9 @@
       }
     })
   }
-</script>
 
-<template>
-  <button
-    :title="currentSort === 'asc' ? 'change to desc' : 'change to asc'"
-    @click="toggleSort"
-  >
-    sorted by {{ currentSort }}
-  </button>
-</template>
+  return {
+    currentSort,
+    toggleSort
+  }
+}

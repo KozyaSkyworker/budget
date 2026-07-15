@@ -11,9 +11,9 @@
     "^@/api",
     "^@/types",
     "^@/router",
+    "^@/widgets",
+    "^@/features",
     "^@/entities",
-    "^@/stores",
-    "^@/components",
     "^[./]"
   ],
   "importOrderSeparation": true,

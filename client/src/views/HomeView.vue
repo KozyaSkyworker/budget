@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import TranscationControls from '@/entities/transaction/ui/TranscationControls.vue'
-  import TranscationsList from '@/entities/transaction/ui/TranscationsList.vue'
+  import TranscationControls from '@/widgets/TranscationControls.vue'
+  import TranscationsList from '@/widgets/TranscationsList.vue'
 </script>
 
 <template>

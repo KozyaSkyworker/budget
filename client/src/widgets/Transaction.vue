@@ -1,22 +1,11 @@
 <script setup lang="ts">
   import type { ITransaction, ITransactionDTO } from '@/types'
 
-  import { useDeleteTransaction } from '../api'
-  import { useTranscationsStore } from '../store'
+  import TransactionDelete from '@/features/transaction-delete/TransactionDelete.vue'
+
+  import TransactionEditModal from './TransactionEditModal.vue'
 
   const { date, items } = defineProps<ITransactionDTO>()
-
-  const transcationsStore = useTranscationsStore()
-
-  const { loading, mutate } = useDeleteTransaction()
-
-  const handleDelete = async (id: number) => {
-    if (!confirm('Вы действительно хотите удалить транзакцию?')) return
-
-    console.log('log', `delete t with id ${id}`)
-    await mutate(id)
-    transcationsStore.setLastAction(`delete t with id ${id}`)
-  }
 
   const getSign = (type: ITransaction['type']) =>
     type === 'Пополнение' ? '+' : '-'
@@ -41,10 +30,8 @@
         </span>
         <small v-if="item.comment">Комментарий: {{ item.comment }}</small>
         <div class="actions">
-          <button>Редактировать</button>
-          <button :disabled="loading" @click="handleDelete(item.id)">
-            Удалить
-          </button>
+          <TransactionEditModal :transaction-i-d="item.id" />
+          <TransactionDelete :transaction-i-d="item.id" />
         </div>
       </div>
     </main>
